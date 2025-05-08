@@ -11,6 +11,9 @@ const swaggerSpec = require('./swagger');
 
 const authRoutes = require('./routes/authRoutes');
 const taskRoutes = require('./routes/taskRoutes');
+const projectRoutes = require('./routes/projectRoutes');
+
+
 
 const authMiddleware = require('./middleware/authMiddleware');
 const errorMiddleware = require('./middleware/errorMiddleware')
@@ -47,11 +50,12 @@ app.use(express.json());
 // Parse URL-encoded bodies (optional)
 app.use(express.urlencoded({ extended: true }));
 
-// Public routes
-app.use('/api/auth', authRoutes);
 
-// Protected routes
-app.use('/api/tasks', authMiddleware, taskRoutes);
+
+// app.use('/api/auth', authRoutes);
+// app.use('/api/projects', projectRoutes);
+// app.use('/api/tasks', taskRoutes);
+
 
 // Centralized error handler
 app.use(errorMiddleware);
