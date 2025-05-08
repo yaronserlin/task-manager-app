@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const morgan = require('morgan');
 
-const swaggerUi = require('swagger-ui-express');
-const swaggerSpec = require('./swagger');
+// const swaggerUi = require('swagger-ui-express');
+// const swaggerSpec = require('./swagger');
 
 
 
@@ -19,6 +19,7 @@ const authMiddleware = require('./middleware/authMiddleware');
 const errorMiddleware = require('./middleware/errorMiddleware')
 
 const app = express();
+require('./swagger')(app);
 
 // Custom token to capture response body
 morgan.token('res-body', (req, res) => {
@@ -39,7 +40,7 @@ app.use((req, res, next) => {
 // app.use(morgan(':method :url :status :response-time ms - :res[content-length] bytes - \nbody: :res-body\n'));
 app.use(morgan('dev'));
 
-app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Enable CORS for cross-origin requests (e.g., Hoppscotch, frontend)
 app.use(cors());
@@ -52,9 +53,9 @@ app.use(express.urlencoded({ extended: true }));
 
 
 
-// app.use('/api/auth', authRoutes);
-// app.use('/api/projects', projectRoutes);
-// app.use('/api/tasks', taskRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/projects', projectRoutes);
+app.use('/api/tasks', taskRoutes);
 
 
 // Centralized error handler

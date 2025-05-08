@@ -5,18 +5,70 @@
  */
 
 
-const {
-    registerUser,
-    loginUser,
-    getMe,
-} = require('../controllers/authController');
+const { registerUser, loginUser, getMe, } = require('../controllers/authController');
 const validate = require('../middleware/validateMiddleware');
 const protect = require('../middleware/authMiddleware');
-const {
-    registerSchema,
-    loginSchema,
-} = require('../validators/authValidator');
+const { registerSchema, loginSchema, } = require('../validators/authValidator');
 
+
+/**
+ * @swagger
+ * tags:
+ *   name: Auth
+ *   description: User registration & login
+ */
+
+/**
+ * @swagger
+ * /api/auth/register:
+ *   post:
+ *     tags: [Auth]
+ *     summary: Register a new user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [firstName, lastName, email, password]
+ *             properties:
+ *               firstName: { type: string, example: Demo }
+ *               lastName:  { type: string, example: User }
+ *               email:     { type: string, example: demo@mail.com }
+ *               password:  { type: string, example: Passw0rd! }
+ *     responses:
+ *       201: { description: User created, content: { application/json: { schema: { $ref: '#/components/schemas/AuthSuccess' } } } }
+ *       400: { $ref: '#/components/responses/ValidationError' }
+ *
+ * /api/auth/login:
+ *   post:
+ *     tags: [Auth]
+ *     summary: Log in and receive a JWT
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [email, password]
+ *             properties:
+ *               email:    { type: string, example: demo@mail.com }
+ *               password: { type: string, example: Passw0rd! }
+ *     responses:
+ *       200: { description: Login successful, content: { application/json: { schema: { $ref: '#/components/schemas/AuthSuccess' } } } }
+ *       401: { $ref: '#/components/responses/Unauthorized' }
+ *
+ * /api/auth/me:
+ *   get:
+ *     tags: [Auth]
+ *     summary: Get the logged-in user profile
+ *     security: [ { BearerAuth: [] } ]
+ *     responses:
+ *       200:
+ *         description: User profile
+ *         content: { application/json: { schema: { $ref: '#/components/schemas/AuthSuccess' } } }
+ *       401: { $ref: '#/components/responses/Unauthorized' }
+ */
 const router = require('express').Router();
 
 /** @route POST /api/auth/register */
@@ -29,97 +81,3 @@ router.post('/login', validate(loginSchema), loginUser);
 router.get('/me', protect, getMe);
 
 module.exports = router;
-
-
-// const router = require('express').Router();
-// const { register, login, profile } = require('../controllers/authController');
-// const authMiddleware = require('../middleware/authMiddleware');
-
-// /**
-//  * @swagger
-//  * tags:
-//  *   name: Auth
-//  *   description: Authentication routes
-//  */
-
-// /**
-//  * @swagger
-//  * /api/auth/register:
-//  *   post:
-//  *     summary: Register a new user
-//  *     tags: [Auth]
-//  *     requestBody:
-//  *       required: true
-//  *       content:
-//  *         application/json:
-//  *           schema:
-//  *             type: object
-//  *             required:
-//  *               - name
-//  *               - email
-//  *               - password
-//  *             properties:
-//  *               name:
-//  *                 type: string
-//  *                 example: John Doe
-//  *               email:
-//  *                 type: string
-//  *                 example: john@example.com
-//  *               password:
-//  *                 type: string
-//  *                 example: secret123
-//  *     responses:
-//  *       201:
-//  *         description: User created, returns JWT token
-//  *         content:
-//  *           application/json:
-//  *             schema:
-//  *               type: object
-//  *               properties:
-//  *                 token:
-//  *                   type: string
-//  *       400:
-//  *         description: Bad request or email already in use
-//  */
-// router.post('/register', register);
-
-// /**
-//  * @swagger
-//  * /api/auth/login:
-//  *   post:
-//  *     summary: Login a user
-//  *     tags: [Auth]
-//  *     requestBody:
-//  *       required: true
-//  *       content:
-//  *         application/json:
-//  *           schema:
-//  *             type: object
-//  *             required:
-//  *               - email
-//  *               - password
-//  *             properties:
-//  *               email:
-//  *                 type: string
-//  *                 example: john@example.com
-//  *               password:
-//  *                 type: string
-//  *                 example: secret123
-//  *     responses:
-//  *       200:
-//  *         description: Successful login, returns JWT token
-//  *         content:
-//  *           application/json:
-//  *             schema:
-//  *               type: object
-//  *               properties:
-//  *                 token:
-//  *                   type: string
-//  *       400:
-//  *         description: Invalid credentials
-//  */
-// router.post('/login', login);
-
-// router.get('/profile', authMiddleware, profile)
-
-// module.exports = router;

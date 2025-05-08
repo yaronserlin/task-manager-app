@@ -12,10 +12,92 @@ const {
     updateProject,
     deleteProject,
 } = require('../controllers/projectController');
-const  protect  = require('../middleware/authMiddleware');
+const protect = require('../middleware/authMiddleware');
 const validate = require('../middleware/validateMiddleware');
 const { projectSchema } = require('../validators/projectValidator');
 
+
+/**
+ * @swagger
+ * tags:
+ *   name: Projects
+ *   description: CRUD for projects
+ */
+
+/**
+ * @swagger
+ * /api/projects:
+ *   get:
+ *     tags: [Projects]
+ *     summary: List projects for the authenticated user
+ *     security: [ { BearerAuth: [] } ]
+ *     responses:
+ *       200: { description: Array of projects, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/Project' } } } } }
+ *       401: { $ref: '#/components/responses/Unauthorized' }
+ *
+ *   post:
+ *     tags: [Projects]
+ *     summary: Create a project
+ *     security: [ { BearerAuth: [] } ]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [name]
+ *             properties:
+ *               name:        { type: string, example: Personal }
+ *               description: { type: string, example: Daily chores }
+ *               color:       { type: string, example: '#FF6B6B' }
+ *     responses:
+ *       201: { description: Project created, content: { application/json: { schema: { $ref: '#/components/schemas/Project' } } } }
+ *       400: { $ref: '#/components/responses/ValidationError' }
+ *       401: { $ref: '#/components/responses/Unauthorized' }
+ *
+ * /api/projects/{id}:
+ *   get:
+ *     tags: [Projects]
+ *     summary: Retrieve a single project
+ *     security: [ { BearerAuth: [] } ]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200: { description: A project, content: { application/json: { schema: { $ref: '#/components/schemas/Project' } } } }
+ *       404: { $ref: '#/components/responses/NotFound' }
+ *   put:
+ *     tags: [Projects]
+ *     summary: Update a project
+ *     security: [ { BearerAuth: [] } ]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema: { $ref: '#/components/schemas/Project' }
+ *     responses:
+ *       200: { description: Updated, content: { application/json: { schema: { $ref: '#/components/schemas/Project' } } } }
+ *       404: { $ref: '#/components/responses/NotFound' }
+ *   delete:
+ *     tags: [Projects]
+ *     summary: Delete a project
+ *     security: [ { BearerAuth: [] } ]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200: { description: Removed }
+ *       404: { $ref: '#/components/responses/NotFound' }
+ */
 const router = express.Router();
 
 /**
