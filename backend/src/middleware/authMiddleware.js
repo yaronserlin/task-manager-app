@@ -15,8 +15,9 @@
 //     }
 // };
 const jwt = require('jsonwebtoken');
+const asyncHandler = require('../utils/asyncHandler');
 
-module.exports = async (req, res, next) => {
+module.exports = asyncHandler(async (req, res, next) => {
     try {
         const header = req.headers.authorization;
         if (!header) throw { status: 401, message: 'No token provided' };
@@ -28,4 +29,4 @@ module.exports = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-};
+});
