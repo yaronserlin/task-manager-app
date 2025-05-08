@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { TaskContext } from '../../../context/TaskContext';
-import TaskItem from '../TaskItem/TaskItem';
+import { TaskContext } from '../../context/TaskContext';
+import TaskItem from './TaskItem';
 
 const TaskList = ({ onEdit }) => {
     const { tasks } = useContext(TaskContext);

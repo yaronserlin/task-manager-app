@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
 
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
@@ -17,7 +17,7 @@ const NavbarComponent = () => {
 
     return (
 
-        <Navbar bg="dark" data-bs-theme="dark" expand="sm">
+        <Navbar bg="dark" data-bs-theme="dark" expand="sm" >
             <Container>
                 <Navbar.Brand role="button" onClick={() => navigate('/')}>Task Manager {user && "- " + user.name}</Navbar.Brand>
                 <Navbar.Toggle />

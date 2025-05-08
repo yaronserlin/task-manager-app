@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { TaskContext } from '../../../context/TaskContext';
+import { TaskContext } from '../../context/TaskContext';
 
 const TaskEditor = ({ currentTask, onClose }) => {
     const isEdit = Boolean(currentTask);

@@ -1,0 +1,31 @@
+/* 1) Make sure the container is flex (you already do this inline) */
+.layout-split {
+    display: flex;
+    /* redundant if you already set it inline */
+    height: 100%;
+}
+
+/* 2) Target the gutter that split.js creates */
+.layout-split>.gutter {
+    background: transparent;
+    /* we’ll draw our own lines */
+    position: relative;
+    /* for absolutely‐positioned pseudo‐elements */
+    width: 10px;
+    /* your gutterSize */
+    cursor: col-resize;
+}
+
+/* 3) Draw two lines via :before and :after */
+.layout-split>.gutter:before,
+.layout-split>.gutter:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+
+}
+
+.layout-split>.gutter:hover {
+    background: #d8d8d8;
+}

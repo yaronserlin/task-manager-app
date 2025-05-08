@@ -12,18 +12,16 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import { AuthContext } from '../../../context/AuthContext';
-import handleFormChange from '../../../utils/handleFormChange';
+import { AuthContext } from '../../context/AuthContext';
+import handleFormChange from '../../utils/handleFormChange';
 import { useNavigate } from 'react-router-dom';
+import { passwordRegex } from '../../utils/regex';
 
 // Initial form values for controlled inputs
 const initialData = {
     email: '',
     password: '',
 };
-
-// Password must contain letters and numbers, 8-20 characters
-const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$/;
 
 function LoginForm() {
     // State to track whether form has been validated (triggering feedback)
@@ -134,7 +132,7 @@ function LoginForm() {
             {error && <div className="text-danger mb-3">{error}</div>}
 
             {/* Submit button triggers handleSubmit */}
-            <Button type="submit">Submit form</Button>
+            <Button type="submit">Login</Button>
         </Form>
     );
 }
